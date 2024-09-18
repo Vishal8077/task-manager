@@ -14,7 +14,7 @@
 
 <body>
     <div class="container mt-4">
-        <h2 class="mb-4">Webreinvent Task Manager</h2>
+        <h2 class="mb-4">Webreinvent Task Managers</h2>
 
         <div class="row mb-3 justify-content-center">
             <div class="col-4 border p-2 rounded">
