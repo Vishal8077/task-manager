@@ -16,7 +16,7 @@ use App\Http\Controllers\TaskController;
 
 
 Route::get('/', function () {
-    return redirect('/tasks'); // Redirect to homepage
+    return redirect('/tasks'); 
 });
 
 Route::get('/tasks', [TaskController::class, 'index']);  

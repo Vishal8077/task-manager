@@ -14,7 +14,7 @@
 
 <body>
     <div class="container mt-4">
-        <h2 class="mb-4">Webreinvent Task Managers</h2>
+        <h2 class="mb-4">Webreinvent Task Manager</h2>
 
         <div class="row mb-3 justify-content-center">
             <div class="col-4 border p-2 rounded">
@@ -37,12 +37,12 @@
                 </tr>
             </thead>
             <tbody id="tasks-list">
-                @foreach ($tasks as $task)
+                @forelse ($tasks as $task)
                     <tr data-id="{{ $task->id }}" class="{{ $task->complete ? 'completed' : '' }}">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $task->task }}</td>
                         <td>
-                            {{ $task->complete ? 'done' : '' }}
+                            {{ $task->complete ? 'Done' : '' }}
                         </td>
                         <td>
                             <input type="checkbox" class="complete-task" data-id="{{ $task->id }}"
@@ -51,8 +51,12 @@
                                 data-id="{{ $task->id }}">Delete</button>
                         </td>
                     </tr>
-                @endforeach
-            </tbody>
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center">No data available. Please add a new task.</td>
+                    </tr>
+                @endforelse
+            </tbody>            
         </table>
         <footer class="mt-4 text-center">
             <p class="mb-1">Developed by Vishal Kumar</p>
@@ -66,6 +70,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        let currentIndex = 1;
         $(document).ready(function() {
             $('#add-task-btn').on('click', function() {
                 let task = $('#task-input').val();
@@ -79,7 +84,8 @@
                         },
                         success: function(data) {
                             $('#task-input').val('');
-                            appendTask(data);
+                            appendTask(data, currentIndex);
+                            currentIndex++;
                         },
                         error: function(xhr) {
                             alert(xhr.responseJSON.message);
@@ -129,7 +135,8 @@
                 $('#tasks-list').empty();
                 $.get('/tasks', function(data) {
                     data.forEach((task, index) => {
-                        appendTask(task, index + 1); 
+                        appendTask(task, currentIndex);
+                        currentIndex++; 
                     });
                 });
             }
